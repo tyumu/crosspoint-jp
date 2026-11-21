@@ -36,10 +36,21 @@ static_assert(CrossPointSettings::OTA_CHANNEL_COUNT == static_cast<int>(releaseV
               "チャネルを追加したら SettingsList.h のラベルも増やすこと");
 
 namespace {
+// OTA の取得先。個人の配信サーバ(localhost / LAN の IP)を使う場合は
+// リポジトリ直下の .env(X3DP_OTA_LATEST_URL / X3DP_OTA_LIST_URL)か環境変数で
+// 上書きする。scripts/x3dp_env.py がビルド時に -D へ変換する。
+// 何も設定しなければ公開リポジトリの GitHub Releases を見る。
+#ifndef X3DP_OTA_LATEST_URL
+#define X3DP_OTA_LATEST_URL "https://api.github.com/repos/zrn-ns/crosspoint-jp/releases/latest"
+#endif
+#ifndef X3DP_OTA_LIST_URL
+#define X3DP_OTA_LIST_URL "https://api.github.com/repos/zrn-ns/crosspoint-jp/releases?per_page=10"
+#endif
+
 // The stable channel asks GitHub for the release it marks as latest. Prereleases
 // (RC and Dev Build) can never hold that flag, so this endpoint is exactly the
 // stable line — no filtering needed, and it stays a single 8.7KB object.
-constexpr char latestReleaseUrl[] = "https://api.github.com/repos/zrn-ns/crosspoint-jp/releases/latest";
+constexpr char latestReleaseUrl[] = X3DP_OTA_LATEST_URL;
 
 // The RC and DEV channels additionally scan the release list, which is where the
 // prereleases live. The list is ordered by the tag commit's date, not by publish
@@ -50,7 +61,7 @@ constexpr char latestReleaseUrl[] = "https://api.github.com/repos/zrn-ns/crosspo
 // The list alone is NOT enough: with a Dev Build a day, the window fills with
 // dev tags within days and would hide a stable/RC release that sits just past
 // it. That is why /releases/latest is always fetched too.
-constexpr char releaseListUrl[] = "https://api.github.com/repos/zrn-ns/crosspoint-jp/releases?per_page=10";
+constexpr char releaseListUrl[] = X3DP_OTA_LIST_URL;
 
 // esp_err_to_name の "ESP_ERR_" prefix を削って画面幅に収まる短い名前にする。
 const char* shortErrName(const char* name) {

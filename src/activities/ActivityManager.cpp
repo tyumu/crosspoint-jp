@@ -1,4 +1,5 @@
 #include "ActivityManager.h"
+#include "activities/netdisplay/NetDisplayActivity.h"
 
 #include <HalPowerManager.h>
 
@@ -181,6 +182,10 @@ void ActivityManager::replaceActivity(std::unique_ptr<Activity>&& newActivity) {
     OrientationHelper::applyOrientation(renderer, mappedInput, currentActivity.get());
     currentActivity->onEnter();
   }
+}
+
+void ActivityManager::goToNetDisplay() {
+  replaceActivity(std::make_unique<NetDisplayActivity>(renderer, mappedInput));
 }
 
 void ActivityManager::goToFileTransfer() {

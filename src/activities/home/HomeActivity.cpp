@@ -24,7 +24,8 @@
 #include "fontIds.h"
 
 int HomeActivity::getMenuItemCount() const {
-  int count = 5;  // File Browser, Recents, Aozora, File transfer, Settings
+  // Net Display, File Browser, Recents, (OPDS), Aozora, File transfer, Settings
+  int count = 6;
   if (!recentBooks.empty()) {
     count += recentBooks.size();
   }
@@ -188,6 +189,7 @@ void HomeActivity::loop() {
     // Calculate dynamic indices based on which options are available
     int idx = 0;
     int menuSelectedIndex = selectorIndex - static_cast<int>(recentBooks.size());
+    const int netDisplayIdx = idx++;
     const int fileBrowserIdx = idx++;
     const int recentsIdx = idx++;
     const int opdsLibraryIdx = hasOpdsUrl ? idx++ : -1;
@@ -197,6 +199,8 @@ void HomeActivity::loop() {
 
     if (selectorIndex < recentBooks.size()) {
       onSelectBook(recentBooks[selectorIndex].path);
+    } else if (menuSelectedIndex == netDisplayIdx) {
+      onNetDisplayOpen();
     } else if (menuSelectedIndex == fileBrowserIdx) {
       onFileBrowserOpen();
     } else if (menuSelectedIndex == recentsIdx) {
@@ -227,6 +231,10 @@ void HomeActivity::render(RenderLock&&) {
   std::vector<const char*> menuItems = {tr(STR_BROWSE_FILES), tr(STR_MENU_RECENT_BOOKS), tr(STR_FILE_TRANSFER),
                                         tr(STR_SETTINGS_TITLE)};
   std::vector<UIIcon> menuIcons = {Folder, Recent, Transfer, Settings};
+
+  // X3DP: Net Display を先頭に置く
+  menuItems.insert(menuItems.begin(), "Net Display");
+  menuIcons.insert(menuIcons.begin(), Wifi);
 
   if (hasOpdsUrl) {
     // Insert OPDS Browser after Recents
@@ -305,6 +313,8 @@ void HomeActivity::onRecentsOpen() { activityManager.goToRecentBooks(); }
 void HomeActivity::onSettingsOpen() { activityManager.goToSettings(); }
 
 void HomeActivity::onFileTransferOpen() { activityManager.goToFileTransfer(); }
+
+void HomeActivity::onNetDisplayOpen() { activityManager.goToNetDisplay(); }
 
 void HomeActivity::onOpdsBrowserOpen() { activityManager.goToBrowser(); }
 

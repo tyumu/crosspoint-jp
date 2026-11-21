@@ -22,6 +22,10 @@ docs/plans/
 /.venv
 *.local*
 *.cpfont
+
+# 個人設定(OTA 配信先など)。テンプレートだけ公開する。
+.env
+!.env.template
 lib/EpdFont/scripts/downloaded_fonts/
 lib/EpdFont/scripts/instanced_fonts/
 lib/EpdFont/scripts/output/

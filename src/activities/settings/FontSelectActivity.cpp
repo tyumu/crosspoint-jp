@@ -13,7 +13,7 @@
 namespace {
 constexpr int kBuiltinReaderFontCount = 3;
 constexpr CrossPointSettings::FONT_FAMILY kBuiltinReaderFonts[kBuiltinReaderFontCount] = {
-    CrossPointSettings::NOTOSERIF, CrossPointSettings::NOTOSANS, CrossPointSettings::OPENDYSLEXIC};
+    CrossPointSettings::NOTOSERIF, CrossPointSettings::NOTOSANS};
 constexpr StrId kBuiltinReaderFontLabels[kBuiltinReaderFontCount] = {StrId::STR_NOTO_SERIF, StrId::STR_NOTO_SANS,
                                                                      StrId::STR_OPEN_DYSLEXIC};
 }  // namespace
