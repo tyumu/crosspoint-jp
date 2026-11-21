@@ -6,6 +6,23 @@ Xteink X3/X4 向けの日本語EPUB閲覧に特化したフォーク。
 
 <img src="./docs/images/cover.jpg" width="400" alt="縦書き表示"> <img src="./docs/images/home.jpg" width="400" alt="ホーム画面">
 
+## X3DP: スマホ画面を X3 の外部ディスプレイにする(このブランチの追加機能)
+
+この `x3dp` ブランチは、X3 を Android スマホの外部モニタ + 物理ボタン付きページ送り機として
+使えるようにする **Net Display** 機能を足したフォークです。スマホ側アプリは
+[tyumu/x3dp-android](https://github.com/tyumu/x3dp-android)。
+
+- ホームメニュー先頭の **Net Display** を開くと BLE で待ち受け、スマホから 1bit フレーム
+  (528×792 相当 / 物理 792×528)を受け取って `FAST_REFRESH` で描画します
+- X3 の物理ボタンは `N`/`P`/`R` などの verb としてスマホへ送られ、スクロール・再取得になります
+- 詳しい仕様・ビルド・実装メモは **[docs/x3dp.md](docs/x3dp.md)**
+- 自前の OTA 配信先など**個人で変わる値は `.env`** に書きます(`.env.template` をコピー)。
+  `.env` は git 管理外なので、リポジトリには個人の IP などは入りません
+
+フォーク元(系譜): 本家 [crosspoint-reader/crosspoint-reader](https://github.com/crosspoint-reader/crosspoint-reader)
+→ 日本語フォーク [zrn-ns/crosspoint-jp](https://github.com/zrn-ns/crosspoint-jp) → このブランチ。
+追加分は `x3dp` ブランチのコミットのみで、元の MIT ライセンスと著作権表示はそのまま保持しています。
+
 ## 注意事項
 
 - **動作保証はありません。** 自己責任でご利用ください
